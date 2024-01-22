@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modern Calculator</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: #74a794;
+      margin: 0;
+      transition: background-color 1s ease; /* Background color animation */
+    }
+    
+    /* Animation class */
+    .button-clicked {
+      animation: buttonClickAnimation 0.5s;
+    }
+
+    @keyframes buttonClickAnimation {
+      0% {
+        background-color: #74a794;
+      }
+      50% {
+        background-color: #c0c7cf;
+      }
+      100% {
+        background-color: #74a794;
+      }
+    }
+
+    .calculator {
+      width: 300px;
+      margin-top: 50px;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .calculator-screen {
+      height: 60px;
+      text-align: right;
+      padding: 10px;
+      font-size: 1.5em;
+      border-bottom: 1px solid #dee2e6;
+      background-color: #e9ecef;
+      border-radius: 8px 8px 0 0;
+      color: #495057;
+    }
+    .calculator-buttons {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1px;
+    }
+    .calculator-btn {
+      width: 100%;
+      height: 60px;
+      font-size: 1.2em;
+      border: none;
+      background-color: #d1d8e0;
+      color: #495057;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+    .calculator-btn.operator {
+      background-color: #6c757d;
+      color: #fff;
+    }
+    .calculator-btn.number {
+      background-color: #74c0fc;
+      color: #fff;
+    }
+    .calculator-btn.special {
+      background-color: #e44d26;
+      color: #fff;
+    }
+    .calculator-btn.function {
+      background-color: #28a745;
+      color: #fff;
+    }
+    .calculator-btn.bracket {
+      background-color: #ffc107;
+      color: #212529;
+    }
+    .calculator-btn:hover {
+      background-color: #c0c7cf;
+      transform: scale(1.05);
+    }
+    .calculator-btn:active {
+      background-color: #b0b7bf;
+      transform: scale(0.95);
+    }
+  </style>
+</head>
+<body>
+
+<div class="calculator border border-dark rounded">
+  <div class="calculator-screen bg-light" id="screen">0</div>
+  <div class="calculator-buttons">
+    <button class="btn calculator-btn special" onclick="animateButtonClick(); clearScreen()">C</button>
+    <button class="btn calculator-btn special" onclick="animateButtonClick(); backspace()">←</button>
+    <button class="btn calculator-btn function" onclick="animateButtonClick(); appendToScreen('Math.tan(')">tan</button>
+    <button class="btn calculator-btn.bracket" onclick="appendToScreen('(')">(</button>
+    <button class="btn calculator-btn.bracket" onclick="appendToScreen(')')">)</button>
+    <button class="btn calculator-btn number" onclick="appendToScreen('7')">7</button>
+    <button class="btn calculator-btn number" onclick="appendToScreen('8')">8</button>
+    <button class="btn calculator-btn number" onclick="appendToScreen('9')">9</button>
+    <button class="btn calculator-btn function" onclick="appendToScreen('Math.log10(')">log</button>
+    <button class="btn calculator-btn function" onclick="appendToScreen('Math.cos(')">cos</button>
+    <button class="btn calculator-btn number" onclick="appendToScreen('4')">4</button>
+    <button class="btn calculator-btn number" onclick="appendToScreen('5')">5</button>
+    <button class="btn calculator-btn number" onclick="appendToScreen('6')">6</button>
+    <button class="btn calculator-btn.operator" onclick="appendToScreen('/')">/</button>
+    <button class="btn calculator-btn.operator" onclick="appendToScreen('*')">*</button>
+    <button class="btn calculator-btn number" onclick="appendToScreen('1')">1</button>
+    <button class="btn calculator-btn number" onclick="appendToScreen('2')">2</button>
+    <button class="btn calculator-btn number" onclick="appendToScreen('3')">3</button>
+    <button class="btn calculator-btn.operator" onclick="appendToScreen('+')">+</button>
+    <button class="btn calculator-btn.operator" onclick="appendToScreen('-')">-</button>
+    <button class="btn calculator-btn number" onclick="appendToScreen('0')">0</button>
+    <button class="btn calculator-btn.number" onclick="appendToScreen('.')">.</button>
+    <button class="btn calculator-btn.bracket" onclick="appendToScreen('(')">(</button>
+    <button class="btn calculator-btn.bracket" onclick="appendToScreen(')')">)</button>
+    <button class="btn calculator-btn special" onclick="calculateResult()">=</button>
+
+    <!-- Other buttons with onclick="animateButtonClick();" -->
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+<script>
+  let screen = document.getElementById('screen');
+  let currentInput = '';
+
+  function appendToScreen(value) {
+    currentInput += value;
+    screen.innerText = currentInput;
+  }
+
+  function clearScreen() {
+    currentInput = '';
+    screen.innerText = '0';
+  }
+
+  function backspace() {
+    currentInput = currentInput.slice(0, -1);
+    screen.innerText = currentInput;
+  }
+
+  function calculateResult() {
+    try {
+      currentInput = eval(currentInput);
+      screen.innerText = currentInput;
+    } catch (error) {
+      screen.innerText = 'Error';
+    }
+  }
+
+  function animateButtonClick() {
+    document.body.classList.toggle('button-clicked');
+    setTimeout(() => {
+      document.body.classList.remove('button-clicked');
+    }, 500);
+  }
+</script>
+
+</body>
+</html>
